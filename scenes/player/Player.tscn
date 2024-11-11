@@ -1,0 +1,62 @@
+[gd_scene load_steps=10 format=3 uid="uid://cwdmm1v3ysdii"]
+
+[ext_resource type="Script" path="res://scenes/player/player.gd" id="1_2awg6"]
+[ext_resource type="PackedScene" uid="uid://b7xeatht2mq25" path="res://Scripts/Managers/animation_manager.tscn" id="2_ahpvh"]
+[ext_resource type="PackedScene" uid="uid://copmqfbgaq5sc" path="res://scenes/sword/sword.tscn" id="3_r4j6t"]
+[ext_resource type="Texture2D" uid="uid://byt87e38chbb8" path="res://assets/tileset-packed16.png" id="4_hc8en"]
+[ext_resource type="Script" path="res://scenes/player/ChargeBar.gd" id="4_vqijd"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_o7qxx"]
+radius = 8.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6iadp"]
+atlas = ExtResource("4_hc8en")
+region = Rect2(176, 128, 16, 16)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d3hon"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r72s0"]
+bg_color = Color(1, 1, 1, 1)
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("animation_manager")]
+script = ExtResource("1_2awg6")
+animation_manager = NodePath("AnimationManager")
+
+[node name="AnimationManager" parent="." instance=ExtResource("2_ahpvh")]
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_o7qxx")
+debug_color = Color(1, 1, 1, 0)
+
+[node name="Sword" parent="." instance=ExtResource("3_r4j6t")]
+position = Vector2(8, -8)
+
+[node name="Sparkles" parent="Sword" index="6"]
+visible = false
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_6iadp")
+
+[node name="ChargeBar" type="ProgressBar" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -9.0
+offset_top = 10.0
+offset_right = 9.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_d3hon")
+theme_override_styles/fill = SubResource("StyleBoxFlat_r72s0")
+value = 75.0
+show_percentage = false
+script = ExtResource("4_vqijd")
+
+[connection signal="animation_finished" from="Sword/AnimationPlayer" to="AnimationManager" method="_on_animation_player_animation_finished"]
+
+[editable path="Sword"]

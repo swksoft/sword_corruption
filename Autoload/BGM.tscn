@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bw1eml4qi8mk8"]
+
+[ext_resource type="Script" path="res://Autoload/bgm.gd" id="1_6q18k"]
+
+[node name="Bgm" type="Node"]
+script = ExtResource("1_6q18k")
+
+[node name="SelectedSong" type="AudioStreamPlayer" parent="."]

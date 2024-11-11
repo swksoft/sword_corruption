@@ -1,0 +1,74 @@
+[gd_scene load_steps=4 format=3 uid="uid://cfn12fr58gwl8"]
+
+[ext_resource type="Script" path="res://UI/HUD/CorruptionBar.gd" id="1_f6wbt"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ehpon"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h00l6"]
+bg_color = Color(1, 1, 1, 1)
+border_color = Color(0.8, 0.8, 0.8, 0)
+anti_aliasing = false
+
+[node name="Hud" type="CanvasLayer"]
+
+[node name="Area" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+metadata/_edit_lock_ = true
+
+[node name="ColorBG" type="ColorRect" parent="Area"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Info" type="VBoxContainer" parent="Area"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 59.0
+grow_horizontal = 2
+theme_override_constants/separation = 2
+
+[node name="H" type="HBoxContainer" parent="Area/Info"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="PointsLabel" type="Label" parent="Area/Info/H"]
+layout_mode = 2
+text = "Pts."
+horizontal_alignment = 1
+
+[node name="PointsValue" type="Label" parent="Area/Info/H"]
+layout_mode = 2
+text = "00000000004520"
+horizontal_alignment = 1
+
+[node name="CorruptionBar" type="ProgressBar" parent="Area/Info"]
+custom_minimum_size = Vector2(550, 25)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_ehpon")
+theme_override_styles/fill = SubResource("StyleBoxFlat_h00l6")
+value = 50.0
+show_percentage = false
+script = ExtResource("1_f6wbt")
+
+[node name="Title" type="Label" parent="Area/Info"]
+layout_mode = 2
+text = "Add Level Title"
+horizontal_alignment = 1
