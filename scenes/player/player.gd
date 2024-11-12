@@ -1,9 +1,12 @@
 class_name Player extends CharacterBody2D
 
-# Managers
+# Managers & Components
 @export var animation_manager : AnimationManager
+@export var health_component : HealthComponent
 
-# TODO: EL PERSONAJE DEBE PODER APLASTAR ENEMIGOS COMO MARIO
+# TODO: EL PERSONAJE DEBE PODER APLASTAR ENEMIGOS COMO MARIO (bros)
+
+var is_knockback_active := false
 
 # Movement Variables
 @export var speed := 200.0
@@ -17,11 +20,13 @@ var velocity_x := 0.0
 # Attack Variables
 @export var max_charge_time := 1.0
 var is_charging := false
+var can_attack := true
 var charge_time := 0.0
 
 func _ready():
 	animation_manager.animation_node = $Sword/AnimationPlayer
 	animation_manager.play_animation("idle")
+	# Conectamos la señal para recibir daño
 
 func _physics_process(delta: float) -> void:
 	var target_direction := 0.0
@@ -30,8 +35,6 @@ func _physics_process(delta: float) -> void:
 		target_direction -= 1.0
 	if Input.is_action_pressed("right"):
 		target_direction += 1.0
-	if Input.is_action_pressed("reset"):
-		get_tree().reload_current_scene()
 
 	# ACELERACION EN EL AIRE
 	var acceleration := ground_acceleration if is_on_floor() else air_acceleration
@@ -46,10 +49,12 @@ func _physics_process(delta: float) -> void:
 	velocity.x = velocity_x
 
 	# CARGA
-	if is_on_floor() and Input.is_action_just_pressed("attack"):
+	if is_on_floor() and Input.is_action_just_pressed("attack") and can_attack:
 		is_charging = true
 		charge_time = 0.0
 		$ChargeBar.visible = true
+	
+	$CantAttack.visible = Input.is_action_pressed("attack") and !can_attack
 
 	if is_charging:
 		charge_time += delta
@@ -69,14 +74,40 @@ func _physics_process(delta: float) -> void:
 		
 	move_and_slide()
 	
-func execute_attack() -> void:
+func execute_attack():
 	var charge_level = min(charge_time / max_charge_time, 1.0)
 	charge_level = clamp(charge_level, 0.0, 1.0)
-	print("Charge Time: ", charge_level)
-	velocity.y = jump_velocity * (charge_time / max_charge_time)
 	is_charging = false
+	can_attack = false
 	$ChargeBar.visible = false
+	
 	EVENTS.emit_corruption_bar_up(charge_level)
+	# POINTS.emit_add_points(1124) DEBUG
+	
+	#$Sword.damage = 1 + (round(charge_level * 10) / 10)
+	
+	var base_damage = $Sword.damage
+	var exponent = 2
+	var scale_factor = 5
+	#var operation = base_damage + pow(charge_level, multiplier)
+	
+	
+	var operation = base_damage + pow(charge_level * scale_factor, exponent)
+	$Sword.damage = operation
 	
 	animation_manager.attack_animation(charge_level)
 
+func _on_sword_jump():
+	var charge_level = min(charge_time / max_charge_time, 1.0)
+	charge_level = clamp(charge_level, 0.0, 1.0)
+	velocity.y = jump_velocity * (charge_time / max_charge_time) * 1.5
+	
+	# TODO: HITBOX CUANDO CAE
+	
+	#$AnimationPlayer.play("jump") # FIXME: NO SE GIRA
+
+func _on_sword_recovered():
+	can_attack = true
+
+func _on_health_component_die():
+	queue_free()

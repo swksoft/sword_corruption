@@ -71,6 +71,16 @@ reset={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Player"
+2d_physics/layer_2="Enemy"
+2d_physics/layer_3="Items"
+2d_physics/layer_4="Exit"
+2d_physics/layer_5="Projectile"
+2d_physics/layer_6="Terrain"
+2d_physics/layer_7="sword"
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

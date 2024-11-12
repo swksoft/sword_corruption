@@ -17,4 +17,9 @@ func attack_animation(charge_level):
 func _on_animation_player_animation_finished(anim_name):
 	match anim_name:
 		"slash", "slash_2", "slash_3", "slash_4":
+			#animation_node.play("idle")
+			animation_node.play("recovery")
+		"recovery":
 			animation_node.play("idle")
+
+

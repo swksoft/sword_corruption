@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://c05287065sqkg"]
+
+[ext_resource type="Script" path="res://scenes/enemies/projectile.gd" id="1_waexl"]
+[ext_resource type="Texture2D" uid="uid://byt87e38chbb8" path="res://assets/tileset-packed16.png" id="2_qvwie"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p0a53"]
+atlas = ExtResource("2_qvwie")
+region = Rect2(208, 224, 16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cdd1p"]
+size = Vector2(10, 10)
+
+[node name="Projectile" type="Area2D"]
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("1_waexl")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_p0a53")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_cdd1p")
+
+[node name="Despawn" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[connection signal="timeout" from="Despawn" to="." method="_on_despawn_timeout"]

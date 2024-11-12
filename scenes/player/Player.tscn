@@ -1,10 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://cwdmm1v3ysdii"]
+[gd_scene load_steps=19 format=3 uid="uid://cwdmm1v3ysdii"]
 
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_2awg6"]
 [ext_resource type="PackedScene" uid="uid://b7xeatht2mq25" path="res://Scripts/Managers/animation_manager.tscn" id="2_ahpvh"]
+[ext_resource type="PackedScene" uid="uid://cpe262u8q8pr6" path="res://Scripts/Components/health_component.tscn" id="3_003t0"]
 [ext_resource type="PackedScene" uid="uid://copmqfbgaq5sc" path="res://scenes/sword/sword.tscn" id="3_r4j6t"]
 [ext_resource type="Texture2D" uid="uid://byt87e38chbb8" path="res://assets/tileset-packed16.png" id="4_hc8en"]
 [ext_resource type="Script" path="res://scenes/player/ChargeBar.gd" id="4_vqijd"]
+[ext_resource type="PackedScene" uid="uid://q44shsrgssmw" path="res://Scripts/Components/hurtbox_component.tscn" id="6_o4mrb"]
+[ext_resource type="PackedScene" uid="uid://ceeoh3jr2xu87" path="res://Scripts/Components/hitbox_component.tscn" id="7_1ydiu"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_o7qxx"]
 radius = 8.0
@@ -13,33 +16,91 @@ radius = 8.0
 atlas = ExtResource("4_hc8en")
 region = Rect2(176, 128, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_syftj"]
+atlas = ExtResource("4_hc8en")
+region = Rect2(224, 160, 16, 16)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d3hon"]
 bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r72s0"]
 bg_color = Color(1, 1, 1, 1)
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("animation_manager")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b2w1s"]
+size = Vector2(10, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8xenr"]
+size = Vector2(15, 15)
+
+[sub_resource type="Animation" id="Animation_ifxr8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_ka5gj"]
+resource_name = "jump"
+length = 0.30001
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.28319]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_eij72"]
+_data = {
+"RESET": SubResource("Animation_ifxr8"),
+"jump": SubResource("Animation_ka5gj")
+}
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("animation_manager", "health_component")]
+collision_layer = 0
+collision_mask = 32
 script = ExtResource("1_2awg6")
 animation_manager = NodePath("AnimationManager")
+health_component = NodePath("HealthComponent")
 
 [node name="AnimationManager" parent="." instance=ExtResource("2_ahpvh")]
 
+[node name="HealthComponent" parent="." instance=ExtResource("3_003t0")]
+
 [node name="Collision" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("CircleShape2D_o7qxx")
 debug_color = Color(1, 1, 1, 0)
 
 [node name="Sword" parent="." instance=ExtResource("3_r4j6t")]
 position = Vector2(8, -8)
 
-[node name="Sparkles" parent="Sword" index="6"]
-visible = false
-
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = SubResource("AtlasTexture_6iadp")
 
+[node name="CantAttack" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(1, 0, 0, 1)
+position = Vector2(0, -15)
+texture = SubResource("AtlasTexture_syftj")
+
 [node name="ChargeBar" type="ProgressBar" parent="."]
 visible = false
+z_index = 6
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -57,6 +118,30 @@ value = 75.0
 show_percentage = false
 script = ExtResource("4_vqijd")
 
+[node name="HurtboxPlayer" parent="." instance=ExtResource("6_o4mrb")]
+collision_mask = 18
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxPlayer"]
+shape = SubResource("RectangleShape2D_b2w1s")
+
+[node name="HitboxPlayer" parent="." instance=ExtResource("7_1ydiu")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxPlayer"]
+shape = SubResource("RectangleShape2D_8xenr")
+disabled = true
+debug_color = Color(0.988436, 0, 0.302014, 0.42)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_eij72")
+}
+
+[connection signal="die" from="HealthComponent" to="." method="_on_health_component_die"]
+[connection signal="jump" from="Sword" to="." method="_on_sword_jump"]
+[connection signal="recovered" from="Sword" to="." method="_on_sword_recovered"]
 [connection signal="animation_finished" from="Sword/AnimationPlayer" to="AnimationManager" method="_on_animation_player_animation_finished"]
+[connection signal="hit_detected" from="HurtboxPlayer" to="HealthComponent" method="_on_hurtbox_component_hit_detected"]
+[connection signal="knockback" from="HurtboxPlayer" to="HealthComponent" method="_on_hurtbox_player_knockback"]
+[connection signal="animation_finished" from="AnimationPlayer" to="AnimationManager" method="_on_animation_player_animation_finished"]
 
 [editable path="Sword"]

@@ -1,0 +1,55 @@
+[gd_scene load_steps=10 format=3 uid="uid://bxwavjicf7ivy"]
+
+[ext_resource type="Texture2D" uid="uid://byt87e38chbb8" path="res://assets/tileset-packed16.png" id="1_hhwom"]
+[ext_resource type="Script" path="res://scenes/enemies/basic_enemy.gd" id="1_qhked"]
+[ext_resource type="PackedScene" uid="uid://ceeoh3jr2xu87" path="res://Scripts/Components/hitbox_component.tscn" id="2_sk0ju"]
+[ext_resource type="PackedScene" uid="uid://cpe262u8q8pr6" path="res://Scripts/Components/health_component.tscn" id="2_v82ni"]
+[ext_resource type="PackedScene" uid="uid://q44shsrgssmw" path="res://Scripts/Components/hurtbox_component.tscn" id="3_aylij"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_foq4j"]
+atlas = ExtResource("1_hhwom")
+region = Rect2(160, 224, 16, 16)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ea3rf"]
+radius = 5.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p3u5p"]
+size = Vector2(10, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xa8ri"]
+size = Vector2(10, 10)
+
+[node name="BasicEnemy" type="CharacterBody2D" node_paths=PackedStringArray("health_component", "hurtbox_component")]
+collision_layer = 0
+collision_mask = 32
+script = ExtResource("1_qhked")
+health_component = NodePath("HealthComponent")
+hurtbox_component = NodePath("HurtboxEnemy")
+
+[node name="HealthComponent" parent="." instance=ExtResource("2_v82ni")]
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_foq4j")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = SubResource("CircleShape2D_ea3rf")
+debug_color = Color(0, 0.6, 0.701961, 0)
+
+[node name="HitboxEnemy" parent="." instance=ExtResource("2_sk0ju")]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxEnemy"]
+position = Vector2(1, 2)
+shape = SubResource("RectangleShape2D_p3u5p")
+
+[node name="HurtboxEnemy" parent="." instance=ExtResource("3_aylij")]
+collision_mask = 65
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxEnemy"]
+position = Vector2(1, 2)
+shape = SubResource("RectangleShape2D_xa8ri")
+debug_color = Color(0.980332, 0, 0.380564, 0.42)
+
+[connection signal="die" from="HealthComponent" to="." method="_on_health_component_die"]
+[connection signal="hit_detected" from="HurtboxEnemy" to="HealthComponent" method="_on_hurtbox_component_hit_detected"]

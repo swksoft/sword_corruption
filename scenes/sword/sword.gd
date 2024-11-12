@@ -1,3 +1,10 @@
-class_name Sword extends Area2D
+extends HitboxComponent
 
-# TODO: Añadir gráficos basura a los sprite sheets
+signal jump
+signal recovered
+
+func jump_now():
+	emit_signal("jump")
+
+func recovered_now():
+	emit_signal("recovered")

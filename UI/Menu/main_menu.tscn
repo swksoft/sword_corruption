@@ -1,5 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://dwki6f05qecmh"]
+[gd_scene load_steps=12 format=3 uid="uid://dwki6f05qecmh"]
 
+[ext_resource type="Script" path="res://UI/Menu/main_menu.gd" id="1_jhon7"]
 [ext_resource type="Texture2D" uid="uid://cign0rfcjk1y8" path="res://scenes/sword/assets/excalibur_.png" id="1_l4lyy"]
 [ext_resource type="Texture2D" uid="uid://byt87e38chbb8" path="res://assets/tileset-packed16.png" id="2_nkdvr"]
 
@@ -68,6 +69,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_jhon7")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -125,7 +127,7 @@ offset_bottom = 173.0
 rotation = 0.617847
 texture = SubResource("AtlasTexture_0bqfo")
 
-[node name="Button" type="Button" parent="."]
+[node name="BtnPlay" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -152,7 +154,7 @@ theme_override_styles/disabled = SubResource("StyleBoxFlat_6l1o6")
 theme_override_styles/focus = SubResource("StyleBoxFlat_motux")
 text = "PLAY"
 
-[node name="Button2" type="Button" parent="."]
+[node name="BtnExit" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -207,3 +209,5 @@ offset_right = 344.0
 offset_bottom = 45.0
 text = "MADE BY SWKSOFT"
 horizontal_alignment = 1
+
+[connection signal="pressed" from="BtnPlay" to="." method="_on_btn_play_pressed"]

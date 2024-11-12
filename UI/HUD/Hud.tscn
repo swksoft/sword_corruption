@@ -1,5 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://cfn12fr58gwl8"]
+[gd_scene load_steps=5 format=3 uid="uid://cfn12fr58gwl8"]
 
+[ext_resource type="Script" path="res://UI/HUD/PointsValue.gd" id="1_dh5hk"]
 [ext_resource type="Script" path="res://UI/HUD/CorruptionBar.gd" id="1_f6wbt"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ehpon"]
@@ -57,6 +58,7 @@ horizontal_alignment = 1
 layout_mode = 2
 text = "00000000004520"
 horizontal_alignment = 1
+script = ExtResource("1_dh5hk")
 
 [node name="CorruptionBar" type="ProgressBar" parent="Area/Info"]
 custom_minimum_size = Vector2(550, 25)
