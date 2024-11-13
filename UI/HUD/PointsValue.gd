@@ -7,7 +7,7 @@ func _ready():
 	text = str(zeros(POINTS.total_points))
 	
 	POINTS.add_points.connect(on_add_points)
-	EVENTS.corrupt_area.connect(on_corruption)
+	EVENTS.corrupt_area.connect(_on_corruption)
 
 func zeros(number):
 	var score_text = str(POINTS.total_points)
@@ -22,7 +22,7 @@ func on_add_points(amount):
 	POINTS.total_points += amount
 	text = str(zeros(POINTS.total_points))
 
-func on_corruption():
+func _on_corruption(player_coords, large_area):
 	randomize()
 	var corrupted_text := ""
 	var total_length = 12

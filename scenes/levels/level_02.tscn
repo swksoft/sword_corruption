@@ -1,0 +1,84 @@
+[gd_scene load_steps=6 format=3 uid="uid://ccxgq1716dbrv"]
+
+[ext_resource type="PackedScene" uid="uid://kk34x5o1y7x0" path="res://scenes/levels/level_base.tscn" id="1_4qx6d"]
+[ext_resource type="PackedScene" uid="uid://dqonemc3yimhv" path="res://scenes/enemies/enemy_spawner.tscn" id="2_dgtne"]
+[ext_resource type="PackedScene" uid="uid://bat7r5p701rqk" path="res://scenes/enemies/fly_enemy.tscn" id="3_3tqes"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h7n6h"]
+size = Vector2(20, 192)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_suovx"]
+size = Vector2(20, 192)
+
+[node name="Level02" instance=ExtResource("1_4qx6d")]
+
+[node name="Title" parent="Hud/Area/Info" index="2"]
+text = "He won't endure this. Keep attacking before he figures it out!"
+
+[node name="TileMap" parent="." index="4"]
+layer_1/tile_data = PackedInt32Array(1048591, 720896, 12, 1114127, 720896, 12, 1179663, 720896, 12, 1245199, 720896, 12, 1310735, 720896, 12, 1048592, 720896, 12, 1114128, 720896, 12, 1179664, 720896, 12, 1245200, 720896, 12, 1310736, 720896, 12, 1048593, 720896, 12, 1114129, 720896, 12, 1179665, 720896, 12, 1245201, 720896, 12, 1310737, 720896, 12, 1048594, 720896, 12, 1114130, 720896, 12, 1179666, 720896, 12, 1245202, 720896, 12, 1310738, 720896, 12, 1048595, 720896, 12, 1114131, 720896, 12, 1179667, 720896, 12, 1245203, 720896, 12, 1310739, 720896, 12, 1048596, 720896, 12, 1114132, 720896, 12, 1179668, 720896, 12, 1245204, 720896, 12, 1310740, 720896, 12, 1048597, 720896, 12, 1114133, 720896, 12, 1179669, 720896, 12, 1245205, 720896, 12, 1310741, 720896, 12, 983056, 720896, 12, 1376272, 720896, 12, 983057, 720896, 12, 1376273, 720896, 12, 983058, 720896, 12, 1376274, 720896, 12, 983059, 720896, 12, 1376275, 720896, 12, 983060, 720896, 12, 1376276, 720896, 12, 983061, 720896, 12, 1376277, 720896, 12, 983055, 720896, 12, 1376271, 720896, 12)
+
+[node name="TileMap2" parent="." index="5"]
+position = Vector2(7, 1)
+layer_1/tile_data = PackedInt32Array(524323, 851968, 5, 589859, 458752, 6, 655394, 720896, 12, 720930, 720896, 12, 655395, 720896, 12, 720931, 720896, 12, 655396, 720896, 12, 720932, 720896, 12)
+
+[node name="Player" parent="." index="7"]
+position = Vector2(288, 208)
+
+[node name="AreaChanger" parent="." index="9"]
+position = Vector2(-97, 318)
+
+[node name="EnemySpawner" parent="." index="10" instance=ExtResource("2_dgtne")]
+position = Vector2(-32, 160)
+enemy_spawn = ExtResource("3_3tqes")
+min_spawn_time = 5.0
+max_spawn_time = 10.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySpawner" index="1"]
+shape = SubResource("RectangleShape2D_h7n6h")
+
+[node name="EnemySpawner4" parent="." index="11" instance=ExtResource("2_dgtne")]
+position = Vector2(-192, 160)
+enemy_spawn = ExtResource("3_3tqes")
+min_spawn_time = 6.0
+max_spawn_time = 16.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySpawner4" index="1"]
+shape = SubResource("RectangleShape2D_suovx")
+
+[node name="EnemySpawner2" parent="." index="12" instance=ExtResource("2_dgtne")]
+position = Vector2(592, 160)
+enemy_spawn = ExtResource("3_3tqes")
+min_spawn_time = 4.0
+max_spawn_time = 9.0
+invert_direction = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySpawner2" index="1"]
+shape = SubResource("RectangleShape2D_suovx")
+
+[node name="EnemySpawner3" parent="." index="13" instance=ExtResource("2_dgtne")]
+position = Vector2(768, 160)
+enemy_spawn = ExtResource("3_3tqes")
+min_spawn_time = 6.0
+max_spawn_time = 12.0
+invert_direction = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySpawner3" index="1"]
+shape = SubResource("RectangleShape2D_suovx")
+
+[node name="BasicEnemy" parent="." index="14" instance=ExtResource("3_3tqes")]
+position = Vector2(-64, 185)
+
+[node name="BasicEnemy2" parent="." index="15" node_paths=PackedStringArray("health_component", "hurtbox_component") instance=ExtResource("3_3tqes")]
+position = Vector2(752, 162)
+health_component = NodePath("../BasicEnemy/HealthComponent")
+hurtbox_component = NodePath("../BasicEnemy/HurtboxEnemy")
+direction = Vector2(-1, 0)
+
+[node name="AreaWin" parent="." index="16"]
+position = Vector2(558, 418)
+
+[editable path="Hud"]
+[editable path="AreaGameOver"]
+[editable path="AreaChanger"]
+[editable path="AreaWin"]

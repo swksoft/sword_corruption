@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dqonemc3yimhv"]
+
+[ext_resource type="Script" path="res://scenes/enemies/enemy_spawner.gd" id="1_bsbi3"]
+[ext_resource type="PackedScene" uid="uid://bxwavjicf7ivy" path="res://scenes/enemies/basic_enemy.tscn" id="2_2chfr"]
+
+[node name="EnemySpawner" type="Area2D"]
+script = ExtResource("1_bsbi3")
+enemy_spawn = ExtResource("2_2chfr")
+metadata/_edit_group_ = true
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

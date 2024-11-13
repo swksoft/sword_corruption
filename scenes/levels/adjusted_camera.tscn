@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://dcfdkfqevoeta"]
+
+[ext_resource type="Script" path="res://scenes/levels/adjusted_camera.gd" id="1_7nas5"]
+
+[node name="AdjustedCamera" type="Camera2D"]
+anchor_mode = 0
+limit_left = 0
+limit_top = 0
+limit_right = 576
+limit_bottom = 324
+limit_smoothed = true
+position_smoothing_enabled = true
+editor_draw_limits = true
+script = ExtResource("1_7nas5")

@@ -4,6 +4,7 @@
 lifetime_randomness = 0.28
 particle_flag_align_y = true
 particle_flag_disable_z = true
+angle_max = 25.0
 direction = Vector3(0, 0, 0)
 spread = 110.172
 initial_velocity_min = 25.0

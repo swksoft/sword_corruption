@@ -60,10 +60,7 @@ debug_color = Color(0.980332, 0, 0.380564, 0.42)
 
 [node name="ShootTimer" type="Timer" parent="."]
 
-[node name="TurnTimer" type="Timer" parent="."]
-
 [connection signal="die" from="HealthComponent" to="." method="_on_health_component_die"]
 [connection signal="hit_detected" from="HurtboxEnemy" to="HealthComponent" method="_on_hurtbox_component_hit_detected"]
 [connection signal="knockback" from="HurtboxEnemy" to="HealthComponent" method="_on_hurtbox_enemy_knockback"]
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
-[connection signal="timeout" from="TurnTimer" to="." method="_on_turn_timer_timeout"]

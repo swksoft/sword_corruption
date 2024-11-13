@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Shroom Jam - Glorious Obliterator Spada Impolutta"
-run/main_scene="res://scenes/levels/level_base.tscn"
+run/main_scene="res://UI/Menu/main_menu.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
 

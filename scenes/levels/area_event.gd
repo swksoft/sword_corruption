@@ -18,6 +18,8 @@ func _ready():
 	area_entered.connect(_on_area_entered)
 
 func _on_area_entered(area):
+	if area is Projectile:
+		return
 	if trigger_once and triggered:
 		return
 
@@ -38,14 +40,13 @@ func _on_area_entered(area):
 
 func handle_level_end():
 	end_screen.show_message(true)
-	end_screen.visible = true
-	get_tree().paused = true
 
 func handle_tilemap_change():
 	if tilemap_target:
 		var tilemap = get_node(tilemap_target) as TileMap
 		if tilemap:
 			tilemap.set_layer_enabled(1, true)
+			tilemap.set_layer_enabled(2, true)
 
 func handle_special_effect():
 	if effect_name != "":
@@ -57,5 +58,3 @@ func handle_trigger_animation():
 
 func handle_game_over():
 	end_screen.show_message(false)
-	end_screen.visible = true
-	get_tree().paused = true

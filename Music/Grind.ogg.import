@@ -12,8 +12,8 @@ dest_files=["res://.godot/imported/Grind.ogg-68c698ad447c11b00d0c1c4b4b65e96d.og
 
 [params]
 
-loop=false
-loop_offset=0
-bpm=0
+loop=true
+loop_offset=0.0
+bpm=0.0
 beat_count=0
 bar_beats=4
