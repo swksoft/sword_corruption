@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://bwb143u1n1k3j"]
+
+[ext_resource type="Script" path="res://scenes/levels/area_event.gd" id="1_q3nvq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h50ev"]
+
+[node name="AreaEvent" type="Area2D"]
+collision_layer = 769
+collision_mask = 769
+script = ExtResource("1_q3nvq")
+metadata/_edit_group_ = true
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_h50ev")
+metadata/_edit_lock_ = true

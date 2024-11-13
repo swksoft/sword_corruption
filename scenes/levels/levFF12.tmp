@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://kk34x5o1y7x0"]
+
+[ext_resource type="PackedScene" uid="uid://cfn12fr58gwl8" path="res://UI/HUD/Hud.tscn" id="1_q536k"]
+[ext_resource type="PackedScene" uid="uid://sod08xdnic7" path="res://scenes/levels/tiles.tscn" id="2_jr6w8"]
+[ext_resource type="PackedScene" uid="uid://bc0r11brxi6xc" path="res://UI/HUD/game_over_screen.tscn" id="2_ydgss"]
+[ext_resource type="PackedScene" uid="uid://cwdmm1v3ysdii" path="res://scenes/player/Player.tscn" id="4_6wyjh"]
+
+[node name="Level01" type="Node2D"]
+
+[node name="AdjustedCamera" type="Camera2D" parent="."]
+anchor_mode = 0
+limit_left = 0
+limit_top = 0
+limit_right = 576
+limit_bottom = 324
+limit_smoothed = true
+position_smoothing_enabled = true
+editor_draw_limits = true
+
+[node name="Hud" parent="." instance=ExtResource("1_q536k")]
+
+[node name="GameOverScreen" parent="Hud" instance=ExtResource("2_ydgss")]
+process_mode = 3
+visible = false
+
+[node name="TileMap" parent="." instance=ExtResource("2_jr6w8")]
+layer_0/tile_data = PackedInt32Array(917509, 524288, 9, 917510, 589824, 9, 917511, 655360, 9, 917512, 720896, 9)
+
+[node name="Player" parent="." instance=ExtResource("4_6wyjh")]
+position = Vector2(96, 112)

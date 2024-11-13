@@ -8,7 +8,11 @@ signal knockback(knockback_vector : Vector2)
 @export var knockback_force : float
 
 # Esta función es llamada cuando el Area2D detecta una colisión
-func _on_area_entered(area: HitboxComponent):
+func _on_area_entered(area: Node2D):
+	if area is MapEntity:
+		area.on_interact()
+	if area is Destructible:
+		area.destroy()
 	if area is HitboxComponent:
 		var attacker_position = area.global_position
 		apply_knockback(attacker_position)

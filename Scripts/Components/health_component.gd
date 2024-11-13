@@ -15,9 +15,10 @@ func _ready():
 	current_health = max_health
 
 func _on_hurtbox_component_hit_detected(damage):
-	print_debug("Salud ", current_health, " - ", damage)
+	BGM.play_sound("res://Music/sfx/Hurt.ogg")
+	#print_debug("Salud ", current_health, " - ", damage)
 	current_health -= damage
-	print_debug(current_health)
+	#print_debug(current_health)
 	if current_health <= 0:
 		die.emit()
 
@@ -31,7 +32,8 @@ func _end_knockback(): # FIXME: a
 	set_physics_process(false)
 
 	if has_node("../"):
-		get_parent().get_node("../").set_disabled(false)
+		pass
+		#get_parent().get_node("../").set_disabled(false)
 		
 
 func _on_hurtbox_player_knockback(knockback_vector):
@@ -39,7 +41,8 @@ func _on_hurtbox_player_knockback(knockback_vector):
 	set_physics_process(true)  # Activa el proceso de física para aplicar knockback
 
 	if has_node("../"):  # Ajusta el path según tu estructura
-		get_parent().get_node("../").set_disabled(true)
+		pass
+		#get_parent().get_node("../").set_disabled(true)
 
 	var timer = Timer.new()
 	timer.one_shot = true

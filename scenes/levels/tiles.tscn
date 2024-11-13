@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://sod08xdnic7"]
+
+[ext_resource type="TileSet" uid="uid://bdcy3b4c07cji" path="res://Scripts/Resources/TilesetPacked.tres" id="1_upcjt"]
+
+[node name="TileMap" type="TileMap"]
+tile_set = ExtResource("1_upcjt")
+format = 2
+layer_0/name = "BG"
+layer_1/name = "Tiles"
+layer_1/z_index = 1
+layer_1/tile_data = PackedInt32Array()
+layer_2/name = "Decoration"
+layer_2/tile_data = PackedInt32Array()

@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://b4f521lf4cg81"]
+
+[ext_resource type="PackedScene" uid="uid://c66gsh12xrew" path="res://scenes/levels/Entities/map_entity.tscn" id="1_ysb5j"]
+[ext_resource type="Script" path="res://scenes/levels/Entities/PotOriginal.gd" id="2_ki6ng"]
+
+[node name="Pot" instance=ExtResource("1_ysb5j")]
+collision_layer = 64
+collision_mask = 64
+script = ExtResource("2_ki6ng")
+knockback_force = 0.0

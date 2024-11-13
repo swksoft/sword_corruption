@@ -71,8 +71,8 @@ _data = {
 }
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("animation_manager", "health_component")]
-collision_layer = 0
-collision_mask = 32
+collision_layer = 256
+collision_mask = 288
 script = ExtResource("1_2awg6")
 animation_manager = NodePath("AnimationManager")
 health_component = NodePath("HealthComponent")
@@ -119,12 +119,14 @@ show_percentage = false
 script = ExtResource("4_vqijd")
 
 [node name="HurtboxPlayer" parent="." instance=ExtResource("6_o4mrb")]
-collision_mask = 18
+collision_layer = 256
+collision_mask = 30
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxPlayer"]
 shape = SubResource("RectangleShape2D_b2w1s")
 
 [node name="HitboxPlayer" parent="." instance=ExtResource("7_1ydiu")]
+collision_mask = 256
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxPlayer"]
 shape = SubResource("RectangleShape2D_8xenr")
@@ -142,6 +144,5 @@ libraries = {
 [connection signal="animation_finished" from="Sword/AnimationPlayer" to="AnimationManager" method="_on_animation_player_animation_finished"]
 [connection signal="hit_detected" from="HurtboxPlayer" to="HealthComponent" method="_on_hurtbox_component_hit_detected"]
 [connection signal="knockback" from="HurtboxPlayer" to="HealthComponent" method="_on_hurtbox_player_knockback"]
-[connection signal="animation_finished" from="AnimationPlayer" to="AnimationManager" method="_on_animation_player_animation_finished"]
 
 [editable path="Sword"]

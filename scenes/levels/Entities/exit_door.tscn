@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=3 uid="uid://dmo5i7v2gchfi"]
+
+[ext_resource type="PackedScene" uid="uid://c66gsh12xrew" path="res://scenes/levels/Entities/map_entity.tscn" id="1_3qb67"]
+[ext_resource type="Script" path="res://scenes/levels/Entities/exit_door.gd" id="2_lfg5c"]
+[ext_resource type="Texture2D" uid="uid://byt87e38chbb8" path="res://assets/tileset-packed16.png" id="3_4dgvl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7048g"]
+atlas = ExtResource("3_4dgvl")
+region = Rect2(112, 96, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t6ua7"]
+atlas = ExtResource("3_4dgvl")
+region = Rect2(208, 80, 16, 16)
+
+[node name="ExitDoor" instance=ExtResource("1_3qb67")]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("2_lfg5c")
+
+[node name="Sprite" parent="." index="1"]
+texture = SubResource("AtlasTexture_7048g")
+
+[node name="Sprite2" type="Sprite2D" parent="." index="2"]
+position = Vector2(0, -16)
+texture = SubResource("AtlasTexture_t6ua7")

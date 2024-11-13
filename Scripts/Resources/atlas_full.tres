@@ -1,6 +1,8 @@
 [gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://d42stvrwav2w"]
 
-[ext_resource type="Texture2D" uid="uid://byt87e38chbb8" path="res://assets/tileset-packed16.png" id="1_kubos"]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qf2jr"]
+load_path = "res://.godot/imported/tileset-packed16.png-79369dcaa44ace24dafb81c97cfd617f.ctex"
 
 [resource]
-atlas = ExtResource("1_kubos")
+atlas = SubResource("CompressedTexture2D_qf2jr")
+region = Rect2(48, 112, 16, 16)

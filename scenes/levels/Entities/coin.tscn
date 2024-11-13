@@ -1,0 +1,17 @@
+[gd_scene load_steps=5 format=3 uid="uid://chch6gvv8jbxb"]
+
+[ext_resource type="PackedScene" uid="uid://c66gsh12xrew" path="res://scenes/levels/Entities/map_entity.tscn" id="1_f7l0q"]
+[ext_resource type="Script" path="res://scenes/levels/Entities/coin.gd" id="2_u3826"]
+[ext_resource type="Texture2D" uid="uid://byt87e38chbb8" path="res://assets/tileset-packed16.png" id="2_uc2uo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mp64r"]
+atlas = ExtResource("2_uc2uo")
+region = Rect2(144, 176, 16, 16)
+
+[node name="Coin" instance=ExtResource("1_f7l0q")]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("2_u3826")
+
+[node name="Sprite" parent="." index="1"]
+texture = SubResource("AtlasTexture_mp64r")

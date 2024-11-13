@@ -26,7 +26,6 @@ var charge_time := 0.0
 func _ready():
 	animation_manager.animation_node = $Sword/AnimationPlayer
 	animation_manager.play_animation("idle")
-	# Conectamos la señal para recibir daño
 
 func _physics_process(delta: float) -> void:
 	var target_direction := 0.0
@@ -65,12 +64,19 @@ func _physics_process(delta: float) -> void:
 	# GRAVITY
 	if not is_on_floor():
 		velocity.y += gravity * delta
-
+	
 	# MISC
+	if is_on_floor():
+		if $AnimationPlayer.current_animation == "jump":
+			$AnimationPlayer.play("RESET")  # Cambia a una animación específica o detén la animación
+	else:
+		if $AnimationPlayer.current_animation != "jump":
+			$AnimationPlayer.play("jump")
+	
 	if target_direction != 0.0:
 		$Sprite.flip_h = velocity_x < 0
 		$Sword.position.x = -8 if velocity_x < 0 else 8
-		$Sword.scale.x = 1 if velocity_x >= 0 else -1 
+		$Sword.scale.x = 1 if velocity_x >= 0 else -1
 		
 	move_and_slide()
 	
@@ -82,29 +88,23 @@ func execute_attack():
 	$ChargeBar.visible = false
 	
 	EVENTS.emit_corruption_bar_up(charge_level)
-	# POINTS.emit_add_points(1124) DEBUG
-	
-	#$Sword.damage = 1 + (round(charge_level * 10) / 10)
 	
 	var base_damage = $Sword.damage
 	var exponent = 2
 	var scale_factor = 5
-	#var operation = base_damage + pow(charge_level, multiplier)
-	
-	
 	var operation = base_damage + pow(charge_level * scale_factor, exponent)
+	
 	$Sword.damage = operation
 	
+	animation_manager.animation_node = $Sword/AnimationPlayer
 	animation_manager.attack_animation(charge_level)
 
 func _on_sword_jump():
 	var charge_level = min(charge_time / max_charge_time, 1.0)
-	charge_level = clamp(charge_level, 0.0, 1.0)
-	velocity.y = jump_velocity * (charge_time / max_charge_time) * 1.5
 	
-	# TODO: HITBOX CUANDO CAE
-	
-	#$AnimationPlayer.play("jump") # FIXME: NO SE GIRA
+	if charge_level != 1:
+		charge_level = clamp(charge_level, 0.0, 1.0)
+		velocity.y = jump_velocity * (charge_time / max_charge_time) * 1.5
 
 func _on_sword_recovered():
 	can_attack = true
