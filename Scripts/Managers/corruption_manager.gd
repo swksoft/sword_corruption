@@ -29,17 +29,17 @@ func get_corruption(amount: float):
 
 func on_corruption_25():
 	if has_node("../TileMapT"):
-		print("ayuda")
+		$"../TileMapT".set_layer_enabled(3, true)
 	EVENTS.emit_corrupt_time(1)
 
 func on_corruption_50():
 	if has_node("../TileMapT"):
-		print("ayuda")
+		$"../TileMapT".set_layer_enabled(4, true)
 	EVENTS.emit_corrupt_time(2)
 
 func on_corruption_75():
 	if has_node("../TileMapT"):
-		$"../TileMapT"
+		$"../TileMapT".set_layer_enabled(5, true)
 	EVENTS.emit_corrupt_time(3)
 
 func on_corruption_full():

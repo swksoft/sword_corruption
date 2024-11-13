@@ -32,7 +32,6 @@ func on_corrupt_area(coords : Vector2i, large_area):
 		
 		for cell in surrounding_cells:
 			if get_cell_source_id(1, cell) == 2:
-				print("ABORTAR ABORTAR")
 				return
 			
 			var random_tile_x = randi() % 15
