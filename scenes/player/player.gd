@@ -7,6 +7,7 @@ class_name Player extends CharacterBody2D
 # TODO: EL PERSONAJE DEBE PODER APLASTAR ENEMIGOS COMO MARIO (bros)
 
 var is_knockback_active := false
+var can_attack_midair := false
 
 # Movement Variables
 @export var speed := 200.0
@@ -38,7 +39,6 @@ func _physics_process(delta: float) -> void:
 	# ACELERACION EN EL AIRE
 	var acceleration := ground_acceleration if is_on_floor() else air_acceleration
 
-	# Ajuste gradual de la velocidad en la dirección del objetivo
 	if target_direction != 0.0:
 		if sign(velocity_x) == sign(target_direction) or is_on_floor():
 			velocity_x = lerp(velocity_x, target_direction * speed, acceleration * delta)
@@ -52,8 +52,12 @@ func _physics_process(delta: float) -> void:
 		is_charging = true
 		charge_time = 0.0
 		$ChargeBar.visible = true
+
+	# MIDAIR ATTACK	
+	if !is_on_floor() and can_attack_midair == true and Input.is_action_just_pressed("attack"):
+		execute_attack(0)
 	
-	$CantAttack.visible = Input.is_action_pressed("attack") and !can_attack
+	#$CantAttack.visible = Input.is_action_pressed("attack") and !can_attack
 
 	if is_charging:
 		charge_time += delta
@@ -80,11 +84,18 @@ func _physics_process(delta: float) -> void:
 		
 	move_and_slide()
 	
-func execute_attack():
-	var charge_level = min(charge_time / max_charge_time, 1.0)
+func execute_attack(charge_level = 0):
+	if charge_level == 0 and !is_on_floor():
+		$Sword.damage = 1
+		animation_manager.animation_node = $Sword/AnimationPlayer
+		animation_manager.attack_animation(charge_level)
+		return
+	
+	charge_level = min(charge_time / max_charge_time, 1.0)
 	charge_level = clamp(charge_level, 0.0, 1.0)
 	is_charging = false
 	can_attack = false
+	
 	$ChargeBar.visible = false
 	
 	EVENTS.emit_corruption_bar_up(charge_level)
@@ -105,6 +116,7 @@ func _on_sword_jump():
 	if charge_level != 1:
 		charge_level = clamp(charge_level, 0.0, 1.0)
 		velocity.y = jump_velocity * (charge_time / max_charge_time) * 1.5
+		can_attack_midair = true
 
 func _on_sword_recovered():
 	can_attack = true

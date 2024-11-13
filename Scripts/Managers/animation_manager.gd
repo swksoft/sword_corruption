@@ -11,7 +11,7 @@ func attack_animation(charge_level):
 		animation_node.play("slash_3")
 	elif charge_level >= 0.25:
 		animation_node.play("slash_2")
-	elif charge_level > 0:
+	elif charge_level >= 0:
 		animation_node.play("slash")
 
 func _on_animation_player_animation_finished(anim_name):

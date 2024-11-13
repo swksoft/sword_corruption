@@ -9,16 +9,32 @@ signal die
 var velocity: Vector2 = Vector2.ZERO  
 var current_health: float
 
+var invulnerable: bool = false
+var invulnerability_duration: float = 0.35  # Tiempo de invulnerabilidad en segundos
+var invulnerability_timer: Timer
+
 @onready var timer = $Timer
 
 func _ready():
 	current_health = max_health
+	invulnerability_timer = Timer.new()
+	invulnerability_timer.wait_time = invulnerability_duration
+	invulnerability_timer.one_shot = true
+	invulnerability_timer.timeout.connect(_on_invulnerability_timeout)
+	add_child(invulnerability_timer)
 
 func _on_hurtbox_component_hit_detected(damage):
+	if invulnerable:
+		return
+		
 	BGM.play_sound("res://Music/sfx/Hurt.ogg")
-	#print_debug("Salud ", current_health, " - ", damage)
+	
 	current_health -= damage
-	#print_debug(current_health)
+	
+	invulnerable = true
+	invulnerability_timer.start()
+	$"../AnimationPlayer".play("invulnerability")
+	
 	if current_health <= 0:
 		die.emit()
 
@@ -34,7 +50,10 @@ func _end_knockback(): # FIXME: a
 	if has_node("../"):
 		pass
 		#get_parent().get_node("../").set_disabled(false)
-		
+
+func _on_invulnerability_timeout():
+	invulnerable = false
+	$"../AnimationPlayer".play("RESET")
 
 func _on_hurtbox_player_knockback(knockback_vector):
 	velocity = knockback_vector

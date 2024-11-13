@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cwdmm1v3ysdii"]
+[gd_scene load_steps=18 format=3 uid="uid://cwdmm1v3ysdii"]
 
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_2awg6"]
 [ext_resource type="PackedScene" uid="uid://b7xeatht2mq25" path="res://Scripts/Managers/animation_manager.tscn" id="2_ahpvh"]
@@ -7,7 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://byt87e38chbb8" path="res://assets/tileset-packed16.png" id="4_hc8en"]
 [ext_resource type="Script" path="res://scenes/player/ChargeBar.gd" id="4_vqijd"]
 [ext_resource type="PackedScene" uid="uid://q44shsrgssmw" path="res://Scripts/Components/hurtbox_component.tscn" id="6_o4mrb"]
-[ext_resource type="PackedScene" uid="uid://ceeoh3jr2xu87" path="res://Scripts/Components/hitbox_component.tscn" id="7_1ydiu"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_o7qxx"]
 radius = 8.0
@@ -29,9 +28,6 @@ bg_color = Color(1, 1, 1, 1)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b2w1s"]
 size = Vector2(10, 10)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_8xenr"]
-size = Vector2(15, 15)
-
 [sub_resource type="Animation" id="Animation_ifxr8"]
 length = 0.001
 tracks/0/type = "value"
@@ -45,6 +41,30 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("HurtboxPlayer/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_ka5gj"]
@@ -64,9 +84,38 @@ tracks/0/keys = {
 "values": [0.0, 6.28319]
 }
 
+[sub_resource type="Animation" id="Animation_5urjn"]
+resource_name = "invulnerability"
+length = 0.10001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.560784)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HurtboxPlayer/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_eij72"]
 _data = {
 "RESET": SubResource("Animation_ifxr8"),
+"invulnerability": SubResource("Animation_5urjn"),
 "jump": SubResource("Animation_ka5gj")
 }
 
@@ -76,10 +125,13 @@ collision_mask = 288
 script = ExtResource("1_2awg6")
 animation_manager = NodePath("AnimationManager")
 health_component = NodePath("HealthComponent")
+speed = 150.0
+air_acceleration = 25.0
 
 [node name="AnimationManager" parent="." instance=ExtResource("2_ahpvh")]
 
 [node name="HealthComponent" parent="." instance=ExtResource("3_003t0")]
+knockback_duration = 1.0
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 visible = false
@@ -124,14 +176,6 @@ collision_mask = 30
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxPlayer"]
 shape = SubResource("RectangleShape2D_b2w1s")
-
-[node name="HitboxPlayer" parent="." instance=ExtResource("7_1ydiu")]
-collision_mask = 256
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxPlayer"]
-shape = SubResource("RectangleShape2D_8xenr")
-disabled = true
-debug_color = Color(0.988436, 0, 0.302014, 0.42)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://bxwavjicf7ivy"]
+[gd_scene load_steps=11 format=3 uid="uid://bxwavjicf7ivy"]
 
 [ext_resource type="Texture2D" uid="uid://byt87e38chbb8" path="res://assets/tileset-packed16.png" id="1_hhwom"]
 [ext_resource type="Script" path="res://scenes/enemies/basic_enemy.gd" id="1_qhked"]
+[ext_resource type="PackedScene" uid="uid://c05287065sqkg" path="res://scenes/enemies/projectile.tscn" id="2_f70il"]
 [ext_resource type="PackedScene" uid="uid://ceeoh3jr2xu87" path="res://Scripts/Components/hitbox_component.tscn" id="2_sk0ju"]
 [ext_resource type="PackedScene" uid="uid://cpe262u8q8pr6" path="res://Scripts/Components/health_component.tscn" id="2_v82ni"]
 [ext_resource type="PackedScene" uid="uid://q44shsrgssmw" path="res://Scripts/Components/hurtbox_component.tscn" id="3_aylij"]
@@ -25,6 +26,7 @@ collision_mask = 32
 script = ExtResource("1_qhked")
 health_component = NodePath("HealthComponent")
 hurtbox_component = NodePath("HurtboxEnemy")
+bullet_scene = ExtResource("2_f70il")
 
 [node name="HealthComponent" parent="." instance=ExtResource("2_v82ni")]
 

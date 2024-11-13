@@ -45,7 +45,7 @@ func handle_tilemap_change():
 	if tilemap_target:
 		var tilemap = get_node(tilemap_target) as TileMap
 		if tilemap:
-			tilemap.visible = true
+			tilemap.set_layer_enabled(1, true)
 
 func handle_special_effect():
 	if effect_name != "":
