@@ -28,7 +28,6 @@ health_component = NodePath("HealthComponent")
 hurtbox_component = NodePath("HurtboxEnemy")
 bullet_scene = ExtResource("2_f70il")
 direction = Vector2(1, 0)
-shoot_interval = 2.0
 
 [node name="HealthComponent" parent="." instance=ExtResource("2_v82ni")]
 max_health = 2.5

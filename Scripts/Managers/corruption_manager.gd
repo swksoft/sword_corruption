@@ -4,9 +4,9 @@ class_name CorruptionManager
 @export var tile_map_original: TileMap
 @export var tile_map_overlay: TileMap
 
-@export var corruption_25_percent_scene : PackedScene
-@export var corruption_50_percent_scene : PackedScene
-@export var corruption_75_percent_scene : PackedScene
+@export var corruption_25_percent_scene : TileMap
+@export var corruption_50_percent_scene : TileMap
+@export var corruption_75_percent_scene : TileMap
 
 @export var end_screen : Node
 
@@ -34,20 +34,20 @@ func get_corruption(amount: float):
 	
 	EVENTS.emit_corruption_bar_up()
 
-func corrupt_area_haha():
-	if has_node("../TileMapT") and has_node("../TileMap"):
+func corrupt_area_haha(corrupt_scene: TileMap):
+	if has_node("../TileMap") and corrupt_scene != null:
 		# Borrar todos los tiles en $TileMap antes de copiar
 		for cell_pos in $"../TileMap".get_used_cells(1):
 			$"../TileMap".erase_cell(1, cell_pos)
 		
 		# Obtener todas las posiciones usadas y las coordenadas del atlas de $TileMapC
-		var used_cells = $"../TileMapT".get_used_cells(1)
+		var used_cells = corrupt_scene.get_used_cells(1)
 		var tiles_data = []
 		
 		for cell_pos in used_cells:
 			# Obtener ID y coordenadas del atlas de cada tile en $TileMapC
-			var atlas_coords = $"../TileMapT".get_cell_atlas_coords(1, cell_pos)
-			var tile_id = $"../TileMapT".get_cell_source_id(1, cell_pos)
+			var atlas_coords = corrupt_scene.get_cell_atlas_coords(1, cell_pos)
+			var tile_id = corrupt_scene.get_cell_source_id(1, cell_pos)
 			tiles_data.append({
 				"position": cell_pos,
 				"tile_id": tile_id,
@@ -56,11 +56,16 @@ func corrupt_area_haha():
 		
 		# Colocar los tiles en $TileMap usando la información recopilada de $TileMapC
 		for tile_info in tiles_data:
-			$"../TileMap".set_cell(0, tile_info["position"], tile_info["tile_id"], tile_info["atlas_coords"])
+			$"../TileMap".set_cell(1, tile_info["position"], tile_info["tile_id"], tile_info["atlas_coords"])
+		
+	corrupt_scene.set_layer_enabled(2, true)
 
 func on_corruption_25():
-	if corruption_75_percent_scene != null:
-		pass
+	if corruption_25_percent_scene != null:
+		corrupt_area_haha(corruption_25_percent_scene)
+		
+	#if has_node("../TileMapT"):
+		#$"../TileMapT".set_layer_enabled(4, true)
 	#corrupt_area_haha()
 		
 		#$"../TileMapT".set_layer_enabled(3, true)
@@ -81,9 +86,7 @@ func on_corruption_25():
 
 func on_corruption_50():
 	if corruption_50_percent_scene != null:
-		pass
-	corrupt_area_haha()
-	$"../TileMapT".set_layer_enabled(2, true)
+		corrupt_area_haha(corruption_50_percent_scene)
 	
 	#if has_node("../TileMapT"):
 		#$"../TileMapT".set_layer_enabled(4, true)
@@ -91,7 +94,9 @@ func on_corruption_50():
 
 func on_corruption_75():
 	if corruption_75_percent_scene != null:
-		pass
+		corrupt_area_haha(corruption_75_percent_scene)
+		if $"../TileMapT2" != null:
+			$"../TileMapT".set_layer_enabled(2, false)
 	#if has_node("../TileMapT"):
 		#$"../TileMapT".set_layer_enabled(5, true)
 	EVENTS.emit_corrupt_time(3)

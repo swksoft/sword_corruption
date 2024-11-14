@@ -7,10 +7,10 @@ class_name BasicEnemy extends CharacterBody2D
 @export var direction := Vector2.LEFT
 @export var can_shoot := false
 @export var affected_by_gravity := true
-@export var shoot_interval := 5.0
+@export var shoot_interval : float
 @export var can_turn_around := false
-@export var turn_time := 5.0
-@export var points := 50
+@export var turn_time : float
+@export var points : int
 
 var gravity := 190
 @export var speed := 100

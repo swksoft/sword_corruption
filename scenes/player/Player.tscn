@@ -173,6 +173,7 @@ script = ExtResource("4_vqijd")
 visible = false
 collision_layer = 264
 collision_mask = 30
+knockback_force = 250.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxPlayer"]
 shape = SubResource("RectangleShape2D_b2w1s")
